@@ -12,43 +12,45 @@ public class Main{
 
         AssignRandomArray assignRnd = new AssignRandomArray();
         CompareSorts cs = new CompareSorts();
+        ComparisonPercentage percentageCalc = new ComparisonPercentage();
+        
+        File textFile = null;
+        FileOutputStream fos = null;
+        BufferedWriter bw = null;
         
         //Kierrosten määrä kaikkien taulukoiden kokojen läpikäymiseen
         int rounds = 3;
         
-        //Vaihtoehto tallentaa tulokset tekstitiedostoon (ja alempana tiedoston path)
+        //Vaihtoehto tallentaa tulokset tekstitiedostoon (true/false) ja hakemisto mihin tekstitiedosto tallennetaan
         boolean saveResultToTextFile = true;
-        File tempDirectory = new File("C:\\Tietorakenne");
-        if(!tempDirectory.exists() && saveResultToTextFile != false) {
-        	tempDirectory.mkdirs();
-        }
+        String textFileDirectory = "C:\\Tietorakenne";
         
-        String textFilePath = "C:\\Tietorakenne\\InsertionSort_VS_QuickSort.txt";
-        File textFile = null;
-        
+        File tempDirectory = new File(textFileDirectory);
         if(saveResultToTextFile) {
-        	//Tätä koodia käytetään vain, jos tallennetaan tulos tekstitiedostoon
-        	textFile = new File(textFilePath);
-    		FileOutputStream fos = new FileOutputStream(textFile);
-    		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
-    		bw.write("------------------------------------------------------------------------");
-    		bw.newLine();
-    		bw.write("Results for Insertion Sort & Quick Sort comparison");
-    		bw.newLine();
-    		bw.write("------------------------------------------------------------------------");
-    		bw.newLine();
-    		bw.close();
+        	if(!tempDirectory.exists()) {
+            	tempDirectory.mkdirs();
+        	}
+            String textFilePath = textFileDirectory + "\\InsertionSort_VS_QuickSort.txt";
+            textFile = new File(textFilePath);
+            fos = new FileOutputStream(textFile);
+        	bw = new BufferedWriter(new OutputStreamWriter(fos));
         }
         
         for(int i = 0; i < rounds; i++) {
         	
             if(saveResultToTextFile) {
             	//Tätä koodia käytetään vain, jos tallennetaan tulos tekstitiedostoon
-        		FileOutputStream fos = new FileOutputStream(textFile);
-        		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+            	if(i == 0) {
+            		bw.write("------------------------------------------------------------------------");
+            		bw.newLine();
+            		bw.write("Results for Insertion Sort & Quick Sort comparison");
+            		bw.newLine();
+            		bw.write("------------------------------------------------------------------------");
+            		bw.newLine();
+            	}
 	    		bw.write("Round " + (i + 1));
 	    		bw.newLine();
-	    		bw.close();
+
             }
             
             int[] insertionSortArray1 = assignRnd.randomArray(1000);
@@ -65,13 +67,110 @@ public class Main{
             int[] quickSortArray4 = assignRnd.randomArray(1000000);
             int[] quickSortArray5 = assignRnd.randomArray(10000000);
 
-            cs.execute(insertionSortArray1, quickSortArray1, textFile);
-            cs.execute(insertionSortArray2, quickSortArray2, textFile);
-            cs.execute(insertionSortArray3, quickSortArray3, textFile);
-            cs.execute(insertionSortArray4, quickSortArray4, textFile);
-            cs.execute(insertionSortArray5, quickSortArray5, textFile);
+            int[] result = new int[2];
+            int difference;
+            
+    	    System.out.println("\nSorting " + quickSortArray1.length + " integer array with insertion sort & quick sort"); 
+            result = cs.execute(insertionSortArray1, quickSortArray1);
+            difference = percentageCalc.percentage(result[0], result[1]);
+    	    System.out.println("Insertion Sort: " + result[0] + " ms");
+    	    System.out.println("Quick Sort: " + result[1] + " ms");
+    	    System.out.println("Quick Sort is " + difference + "% faster than Insertion Sort");
+            
+            if(saveResultToTextFile) {
+            	//Tätä koodia käytetään vain, jos tallennetaan tulos tekstitiedostoon
+        	    bw.write("\nSorting " + quickSortArray1.length + " integer array with insertion sort & quick sort");
+        	    bw.newLine();
+        	    bw.write("Insertion Sort: " + result[0] + " ms");
+        	    bw.newLine();
+        	    bw.write("Quick Sort: " + result[1] + " ms");
+	    		bw.newLine();
+        	    bw.write("Quick Sort is " + difference + "% faster than Insertion Sort");
+	    		bw.newLine();
+            }
+    	    
+    	    System.out.println("\nSorting " + quickSortArray2.length + " integer array with insertion sort & quick sort"); 
+            result = cs.execute(insertionSortArray2, quickSortArray2);
+            difference = percentageCalc.percentage(result[0], result[1]);
+    	    System.out.println("Insertion Sort: " + result[0] + " ms");
+    	    System.out.println("Quick Sort: " + result[1] + " ms");
+    	    System.out.println("Quick Sort is " + difference + "% faster than Insertion Sort");
+    	    
+            if(saveResultToTextFile) {
+            	//Tätä koodia käytetään vain, jos tallennetaan tulos tekstitiedostoon
+        	    bw.write("\nSorting " + quickSortArray2.length + " integer array with insertion sort & quick sort");
+        	    bw.newLine();
+        	    bw.write("Insertion Sort: " + result[0] + " ms");
+        	    bw.newLine();
+        	    bw.write("Quick Sort: " + result[1] + " ms");
+	    		bw.newLine();
+        	    bw.write("Quick Sort is " + difference + "% faster than Insertion Sort");
+	    		bw.newLine();
+            }
+    	    
+    	    System.out.println("\nSorting " + quickSortArray3.length + " integer array with insertion sort & quick sort"); 
+            result = cs.execute(insertionSortArray3, quickSortArray3);
+            difference = percentageCalc.percentage(result[0], result[1]);
+    	    System.out.println("Insertion Sort: " + result[0] + " ms");
+    	    System.out.println("Quick Sort: " + result[1] + " ms");
+    	    System.out.println("Quick Sort is " + difference + "% faster than Insertion Sort");
+    	    
+            if(saveResultToTextFile) {
+            	//Tätä koodia käytetään vain, jos tallennetaan tulos tekstitiedostoon
+        	    bw.write("\nSorting " + quickSortArray3.length + " integer array with insertion sort & quick sort");
+        	    bw.newLine();
+        	    bw.write("Insertion Sort: " + result[0] + " ms");
+        	    bw.newLine();
+        	    bw.write("Quick Sort: " + result[1] + " ms");
+	    		bw.newLine();
+        	    bw.write("Quick Sort is " + difference + "% faster than Insertion Sort");
+	    		bw.newLine();
+            }
+    	    
+    	    System.out.println("\nSorting " + quickSortArray4.length + " integer array with insertion sort & quick sort"); 
+            result = cs.execute(insertionSortArray4, quickSortArray4);
+            difference = percentageCalc.percentage(result[0], result[1]);
+    	    System.out.println("Insertion Sort: " + result[0] + " ms");
+    	    System.out.println("Quick Sort: " + result[1] + " ms");
+    	    System.out.println("Quick Sort is " + difference + "% faster than Insertion Sort");
+    	    
+            if(saveResultToTextFile) {
+            	//Tätä koodia käytetään vain, jos tallennetaan tulos tekstitiedostoon
+        	    bw.write("\nSorting " + quickSortArray4.length + " integer array with insertion sort & quick sort");
+        	    bw.newLine();
+        	    bw.write("Insertion Sort: " + result[0] + " ms");
+        	    bw.newLine();
+        	    bw.write("Quick Sort: " + result[1] + " ms");
+	    		bw.newLine();
+        	    bw.write("Quick Sort is " + difference + "% faster than Insertion Sort");
+	    		bw.newLine();
+            }
+    	    
+    	    System.out.println("\nSorting " + quickSortArray5.length + " integer array with insertion sort & quick sort"); 
+            result = cs.execute(insertionSortArray5, quickSortArray5);
+            difference = percentageCalc.percentage(result[0], result[1]);
+    	    System.out.println("Insertion Sort: " + result[0] + " ms");
+    	    System.out.println("Quick Sort: " + result[1] + " ms");
+    	    System.out.println("Quick Sort is " + difference + "% faster than Insertion Sort");
+    	    
+            if(saveResultToTextFile) {
+            	//Tätä koodia käytetään vain, jos tallennetaan tulos tekstitiedostoon
+        	    bw.write("\nSorting " + quickSortArray5.length + " integer array with insertion sort & quick sort");
+        	    bw.newLine();
+        	    bw.write("Insertion Sort: " + result[0] + " ms");
+        	    bw.newLine();
+        	    bw.write("Quick Sort: " + result[1] + " ms");
+	    		bw.newLine();
+        	    bw.write("Quick Sort is " + difference + "% faster than Insertion Sort");
+	    		bw.newLine();
+	    		bw.newLine();
+	    		bw.newLine();
+            }
+            
         }
-        
+        if(bw != null) {
+    		bw.close();
+        }
 	}
 
 }

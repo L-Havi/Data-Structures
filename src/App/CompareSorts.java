@@ -1,16 +1,10 @@
 package App;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.Calendar;
 
 public class CompareSorts {
 
-	public void execute(int[] insertionSortArray, int[] quickSortArray, File textFile) throws IOException {
+	public int[] execute(int[] insertionSortArray, int[] quickSortArray) {
 		
         QuickSort quickSort = new QuickSort();  
         InsertionSort insertionSort = new InsertionSort();
@@ -20,39 +14,15 @@ public class CompareSorts {
         long start;
         long end;
         int n;  
-		
-        if(textFile != null) {
-        	//Tätä koodia käytetään vain, jos tallennetaan tulos tekstitiedostoon
-    		FileOutputStream fos = new FileOutputStream(textFile);
-    		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
-    		bw.write("Sorting " + insertionSortArray.length + " integer array with insertion sort & quick sort");
-    		bw.newLine();
-    		bw.write("Insertion Sort: ");
-    		bw.close();
-        }
-        
-	    System.out.println("\nSorting " + insertionSortArray.length + " integer array with insertion sort & quick sort"); 
-	    System.out.print("Insertion Sort: ");
+        int[] results = new int[2];
 
 	    time1 = Calendar.getInstance() ;
 	    start = time1.getTimeInMillis() ;
 	    insertionSort.sort(insertionSortArray);
 	    time2 = Calendar.getInstance() ;
 	    end = time2.getTimeInMillis() ;
-
-        if(textFile != null) {
-        	//Tätä koodia käytetään vain, jos tallennetaan tulos tekstitiedostoon
-    		FileOutputStream fos = new FileOutputStream(textFile);
-    		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
-    		bw.write((end - start) + " ms\n");
-    		bw.newLine();
-    		bw.newLine();
-    		bw.write("Quick Sort: ");
-    		bw.close();
-        }
 	    
-	    System.out.print((end - start) + " ms\n");
-	    System.out.print("Quick Sort: ");
+	    results[0] = (int) (end - start);
 
 	    n = quickSortArray.length;
 	    
@@ -62,18 +32,8 @@ public class CompareSorts {
 	    time2 = Calendar.getInstance() ;
 	    end = time2.getTimeInMillis() ;
 
-        if(textFile != null) {
-        	//Tätä koodia käytetään vain, jos tallennetaan tulos tekstitiedostoon
-    		FileOutputStream fos = new FileOutputStream(textFile);
-    		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
-    		bw.write((end - start) + " ms\n");
-    		bw.newLine();
-    		bw.newLine();
-    		bw.newLine();
-    		bw.close();
-        }
-	    
-	    System.out.print((end - start) + " ms\n");
+	    results[1] = (int) (end - start);
+		return results;
 	}
 
 }
